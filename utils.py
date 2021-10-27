@@ -52,7 +52,7 @@ class Counter:
 	def plot(self, *keys):
 		for k in keys:
 			assert k in self.keys
-			plt.plot(history.get(k), label=k)
+			plt.plot(self.counts.get(k), label=k)
 		plt.legend()
 		plt.show()
 
