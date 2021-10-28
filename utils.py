@@ -59,20 +59,22 @@ class Counter:
 
 class StateDictManager:
 	''' Manage state dict in epochs'''
-	def __init__(self, model, filename, best_acc=0):
+	def __init__(self, model, filename, best_acc=0, verbose=0):
 		assert '.' not in filename
 		self.model = model
 		self.filename = filename
 		self.best_acc = best_acc
+		self.verbose = verbose
 
 	def get_name(self, epoch):
-		return f"{self.filename}_epoch{epoch}.state_dict"
+		return f"{self.filename}_epoch{epoch:03}.state_dict"
 	
 	def save_dict(self, cur_acc, epoch):
 		if cur_acc > self.best_acc:
 			torch.save(self.model.state_dict(), self.get_name(epoch))
 			self.best_acc = cur_acc
-			print(f'model state_dict saved to {self.get_name(epoch)}.')
+			if self.verbose: 
+				print(f'model state_dict saved to {self.get_name(epoch)}.')
 
 	def load_dict(self, epoch):
 		state_dict = torch.load(self.get_name(epoch))
